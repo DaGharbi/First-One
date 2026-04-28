@@ -1,0 +1,31 @@
+<div class="date-input-shell">
+  <input
+    class="date-text-input"
+    [attr.name]="name"
+    [disabled]="disabled"
+    [value]="value"
+    type="text"
+    [placeholder]="placeholder"
+    [pattern]="pattern"
+    inputmode="numeric"
+    (input)="onTextInput($event)"
+    (blur)="normalizeText()" />
+
+  <button
+    class="date-picker-button"
+    type="button"
+    [disabled]="disabled"
+    aria-label="Choisir une date"
+    (click)="openPicker()">
+    <span aria-hidden="true"></span>
+  </button>
+
+  <input
+    #nativeDateInput
+    class="native-date-input"
+    tabindex="-1"
+    aria-hidden="true"
+    type="date"
+    [value]="pickerValue"
+    (change)="onPickerChange($any($event.target).value)" />
+</div>

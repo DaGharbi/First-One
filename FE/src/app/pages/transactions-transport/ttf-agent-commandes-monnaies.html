@@ -1,0 +1,142 @@
+<div class="page-wrap">
+  <app-attijari-session-panel />
+  <div class="agent-page">
+    <div class="agent-page-header">
+      <div>
+        <h1>Commande monnaies</h1>
+        <p>Saisir une commande de monnaies.</p>
+      </div>
+      <button class="btn-primary" type="button" (click)="openNewForm()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Nouvelle operation
+      </button>
+    </div>
+
+    @if (feedbackMessage) {
+      <div class="feedback-card success">{{ feedbackMessage }}</div>
+    }
+
+    @if (!isFormVisible && errorMessage) {
+      <div class="feedback-card error">{{ errorMessage }}</div>
+    }
+
+    @if (isFormVisible) {
+    <div class="form-card">
+      <div class="form-header">
+        <div>
+          <h2>Nouvelle commande monnaies</h2>
+          <p>Renseignez les quantites par denomination pour l agence connectee.</p>
+        </div>
+        <button class="btn-secondary" type="button" (click)="closeForm()" [disabled]="isSaving">Annuler</button>
+      </div>
+
+      <form class="admin-form" (ngSubmit)="save()">
+        <div class="form-grid">
+          <label class="field">
+            <span>Date</span>
+            <app-european-date-input [(value)]="dateOperation" name="dateOperation" />
+          </label>
+
+          <label class="field">
+            <span>P_100_M</span>
+            <input [(ngModel)]="p100M" name="p100M" type="number" min="0" />
+          </label>
+
+          <label class="field">
+            <span>P_10_M</span>
+            <input [(ngModel)]="p10M" name="p10M" type="number" min="0" />
+          </label>
+
+          <label class="field">
+            <span>P_1_DN</span>
+            <input [(ngModel)]="p1Dn" name="p1Dn" type="number" min="0" />
+          </label>
+
+          <label class="field">
+            <span>P_20_M</span>
+            <input [(ngModel)]="p20M" name="p20M" type="number" min="0" />
+          </label>
+
+          <label class="field">
+            <span>P_500_M</span>
+            <input [(ngModel)]="p500M" name="p500M" type="number" min="0" />
+          </label>
+
+          <label class="field">
+            <span>P_50_M</span>
+            <input [(ngModel)]="p50M" name="p50M" type="number" min="0" />
+          </label>
+
+          <label class="field">
+            <span>P_5_M</span>
+            <input [(ngModel)]="p5M" name="p5M" type="number" min="0" />
+          </label>
+        </div>
+
+        @if (errorMessage) {
+          <div class="feedback-card error">{{ errorMessage }}</div>
+        }
+
+        <div class="form-actions">
+          <span class="form-hint">Agence et devise sont appliquees automatiquement depuis la session.</span>
+          <button class="btn-primary" type="submit" [disabled]="isSaving">
+            {{ isSaving ? 'Enregistrement...' : 'Enregistrer' }}
+          </button>
+        </div>
+      </form>
+    </div>
+    }
+
+    @if (isLoadingTable) {
+      <div class="feedback-card info">Chargement des commandes monnaies...</div>
+    }
+
+    @if (tableErrorMessage) {
+      <div class="feedback-card error">{{ tableErrorMessage }}</div>
+    }
+
+    <div class="table-card">
+      <div class="table-responsive">
+        <table class="users-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Devise</th>
+              <th>P_100_M</th>
+              <th>P_10_M</th>
+              <th>P_1_DN</th>
+              <th>P_20_M</th>
+              <th>P_500_M</th>
+              <th>P_50_M</th>
+              <th>P_5_M</th>
+              <th>Total pieces</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of agencyCommandesMonnaies; track item.codeAgence + item.dateCdeMonnaies + item.codeDevise) {
+              <tr>
+                <td>{{ item.dateCdeMonnaies | displayDate }}</td>
+                <td>{{ item.codeDevise }}</td>
+                <td>{{ item.p100M | number:'1.0-0' }}</td>
+                <td>{{ item.p10M | number:'1.0-0' }}</td>
+                <td>{{ item.p1Dn | number:'1.0-0' }}</td>
+                <td>{{ item.p20M | number:'1.0-0' }}</td>
+                <td>{{ item.p500M | number:'1.0-0' }}</td>
+                <td>{{ item.p50M | number:'1.0-0' }}</td>
+                <td>{{ item.p5M | number:'1.0-0' }}</td>
+                <td>{{ totalPieces(item) | number:'1.0-0' }}</td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="10">Aucune commande monnaie trouvee pour cette agence.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

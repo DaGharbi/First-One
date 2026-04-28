@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>tn.bank.sud</groupId>
+  <artifactId>common-lib</artifactId>
+  <versioning>
+    <versions>
+      <version>1.0-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20260421002440</lastUpdated>
+  </versioning>
+</metadata>

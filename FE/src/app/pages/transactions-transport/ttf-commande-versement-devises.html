@@ -1,0 +1,83 @@
+<div class="page-wrap">
+  <app-attijari-session-panel />
+  <div class="page-card">
+    <h1>Commande / versement devises</h1>
+    <p class="lead">Gestion des operations en devises (hors Euro/Dollar si applicable).</p>
+    <div class="devise-entry-row">
+      <label class="devise-field">
+        <span>Valeur</span>
+        <input [(ngModel)]="amount" name="amount" type="text" placeholder="Saisir un montant" />
+      </label>
+      <label class="devise-field">
+        <span>Type</span>
+        <select [(ngModel)]="requestType" name="requestType">
+          @for (type of requestTypes; track type) {
+            <option [value]="type">{{ type }}</option>
+          }
+        </select>
+      </label>
+      <label class="devise-field">
+        <span>Devise</span>
+        <select [(ngModel)]="currency" name="currency">
+          @for (deviseOption of devises; track deviseOption.codeDevise) {
+            <option [value]="deviseOption.codeDevise">{{ deviseOption.codeDevise }}</option>
+          }
+        </select>
+      </label>
+      <label class="devise-field">
+        <span>Operation</span>
+        <select [(ngModel)]="operation" name="operation">
+          @for (operationOption of operations; track operationOption) {
+            <option [value]="operationOption">{{ operationOption }}</option>
+          }
+        </select>
+      </label>
+      <label class="confirm-field">
+        <input [(ngModel)]="confirmed" name="confirmed" type="checkbox" />
+        <span>Confirme</span>
+      </label>
+    </div>
+
+    <div class="table-card">
+      <div class="table-responsive">
+      <table class="users-table">
+        <thead>
+          <tr>
+            <th>Nom agence</th>
+            <th>Code agence</th>
+            <th>Montant</th>
+            <th>Devise</th>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of operationsDevises; track item.codeAgence + item.date + item.montant) {
+            <tr>
+              <td>{{ item.agence }}</td>
+              <td>{{ item.codeAgence }}</td>
+              <td>{{ item.montant | number:'1.0-0' }}</td>
+              <td>{{ item.devise }}</td>
+              <td>{{ item.date | displayDate }}</td>
+              <td>{{ item.type }}</td>
+              <td>
+                <span class="status-pill" [class.ok]="item.statut === 'Validee'" [class.pending]="item.statut === 'En attente'" [class.rejected]="item.statut === 'Rejetee'">
+                  {{ item.statut }}
+                </span>
+              </td>
+              <td>
+                <div class="action-btns">
+                  <button type="button" class="btn-icon success">Valider</button>
+                  <button type="button" class="btn-icon danger">Supprimer</button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+</div>

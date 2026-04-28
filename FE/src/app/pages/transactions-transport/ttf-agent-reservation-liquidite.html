@@ -1,0 +1,74 @@
+<div class="page-wrap">
+  <app-attijari-session-panel />
+  <div class="page-card">
+    <h1>Reservation liquidite (TND, Devises)</h1>
+    <p class="lead">Saisir une reservation de liquidite.</p>
+
+    <form class="agent-form-card">
+      <label class="agent-form-field">
+        <span>Montant</span>
+        <input [(ngModel)]="montant" name="montant" type="number" placeholder="Saisir le montant" />
+      </label>
+
+      <label class="agent-form-field">
+        <span>Date</span>
+        <app-european-date-input [(value)]="dateOperation" name="dateOperation" />
+      </label>
+
+      <label class="agent-form-field">
+        <span>Operation</span>
+        <select [(ngModel)]="typeReservation" name="typeReservation">
+          <option value="Reservation">Reservation</option>
+          <option value="Modification reservation">Modification reservation</option>
+        </select>
+      </label>
+
+      <label class="agent-form-field">
+        <span>Type de besoin</span>
+        <select [(ngModel)]="categorieDemande" name="categorieDemande">
+          <option value="Gros montant">Gros montant</option>
+          <option value="GAB">GAB</option>
+          <option value="Besoin d agence">Besoin d'agence</option>
+        </select>
+      </label>
+
+      <label class="agent-form-field">
+        <span>Devise</span>
+        <select [(ngModel)]="devise" name="devise">
+          @for (deviseOption of devises; track deviseOption.codeDevise) {
+            <option [value]="deviseOption.codeDevise">{{ deviseOption.codeDevise }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="agent-form-field agent-form-field-full">
+        <span>Commentaire</span>
+        <textarea [(ngModel)]="commentaire" name="commentaire" rows="3" placeholder="Commentaire (optionnel)"></textarea>
+      </label>
+
+      @if (categorieDemande === 'Gros montant') {
+        <div class="agent-form-field agent-form-field-full">
+          <span>Informations client</span>
+          <div class="agent-form-card">
+            <label class="agent-form-field">
+              <span>Nom du client</span>
+              <input [(ngModel)]="clientNom" name="clientNom" type="text" placeholder="Saisir le nom du client" />
+            </label>
+            <label class="agent-form-field">
+              <span>Numero compte</span>
+              <input [(ngModel)]="clientCompte" name="clientCompte" type="text" placeholder="Saisir le numero de compte" />
+            </label>
+            <label class="agent-form-field">
+              <span>Date client</span>
+              <app-european-date-input [(value)]="clientDate" name="clientDate" />
+            </label>
+          </div>
+        </div>
+      }
+
+      <div class="agent-form-actions">
+        <button type="button" class="btn-icon success">Enregistrer</button>
+      </div>
+    </form>
+  </div>
+</div>

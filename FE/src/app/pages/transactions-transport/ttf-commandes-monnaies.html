@@ -1,0 +1,60 @@
+<div class="page-wrap">
+  <app-attijari-session-panel />
+  <div class="page-card">
+    <h1>Commandes monnaies</h1>
+    <p class="lead">Suivi des commandes de monnaie fiduciaire des agences rattachees a la meme caisse centrale.</p>
+
+    @if (isLoading) {
+      <div class="feedback">Chargement des commandes...</div>
+    }
+
+    @if (errorMessage) {
+      <div class="feedback error">{{ errorMessage }}</div>
+    }
+
+    <div class="table-card">
+      <div class="table-responsive">
+      <table class="users-table">
+        <thead>
+          <tr>
+            <th>Agence</th>
+            <th>Code agence</th>
+            <th>Date</th>
+            <th>Devise</th>
+            <th>P_100_M</th>
+            <th>P_10_M</th>
+            <th>P_1_DN</th>
+            <th>P_20_M</th>
+            <th>P_500_M</th>
+            <th>P_50_M</th>
+            <th>P_5_M</th>
+            <th>Total pieces</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of commandesMonnaies; track item.codeAgence + item.dateCdeMonnaies + item.codeDevise) {
+            <tr>
+              <td>{{ item.libAgence || '-' }}</td>
+              <td>{{ item.codeAgence }}</td>
+              <td>{{ item.dateCdeMonnaies | displayDate }}</td>
+              <td>{{ item.codeDevise }}</td>
+              <td>{{ item.p100M | number:'1.0-0' }}</td>
+              <td>{{ item.p10M | number:'1.0-0' }}</td>
+              <td>{{ item.p1Dn | number:'1.0-0' }}</td>
+              <td>{{ item.p20M | number:'1.0-0' }}</td>
+              <td>{{ item.p500M | number:'1.0-0' }}</td>
+              <td>{{ item.p50M | number:'1.0-0' }}</td>
+              <td>{{ item.p5M | number:'1.0-0' }}</td>
+              <td>{{ totalPieces(item) | number:'1.0-0' }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="12">Aucune commande monnaie trouvee pour cette caisse centrale.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+</div>

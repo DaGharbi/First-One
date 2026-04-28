@@ -1,0 +1,62 @@
+;;; 
+Export: Release 10.2.0.1.0 - Production on Mercredi, 22 Avril, 2026 22:30:59
+
+Copyright (c) 2003, 2005, Oracle.  All rights reserved.
+;;; 
+Connecté à : Oracle Database 10g Express Edition Release 10.2.0.1.0 - Production
+Démarrage de "SYSTEM"."SYS_EXPORT_SCHEMA_01" : system/********@XE schemas=MOHAMED directory=MON_DIR dumpfile=DB22.dmp logfile=DB2.log 
+Estimation en cours à l'aide de la méthode BLOCKS ...
+Traitement du type d'objet SCHEMA_EXPORT/TABLE/TABLE_DATA
+Estimation totale à l'aide le la méthode BLOCKS : 640 KB
+Traitement du type d'objet SCHEMA_EXPORT/USER
+Traitement du type d'objet SCHEMA_EXPORT/SYSTEM_GRANT
+Traitement du type d'objet SCHEMA_EXPORT/ROLE_GRANT
+Traitement du type d'objet SCHEMA_EXPORT/DEFAULT_ROLE
+Traitement du type d'objet SCHEMA_EXPORT/TABLESPACE_QUOTA
+Traitement du type d'objet SCHEMA_EXPORT/PRE_SCHEMA/PROCACT_SCHEMA
+Traitement du type d'objet SCHEMA_EXPORT/SEQUENCE/SEQUENCE
+Traitement du type d'objet SCHEMA_EXPORT/TABLE/TABLE
+Traitement du type d'objet SCHEMA_EXPORT/TABLE/INDEX/INDEX
+Traitement du type d'objet SCHEMA_EXPORT/TABLE/CONSTRAINT/CONSTRAINT
+Traitement du type d'objet SCHEMA_EXPORT/TABLE/INDEX/STATISTICS/INDEX_STATISTICS
+Traitement du type d'objet SCHEMA_EXPORT/TABLE/CONSTRAINT/REF_CONSTRAINT
+Traitement du type d'objet SCHEMA_EXPORT/TABLE/TRIGGER
+Traitement du type d'objet SCHEMA_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+. . export : "MOHAMED"."AGENCE"                          20.55 KB     294 lignes
+. . export : "MOHAMED"."APP_AUTH"                            6 KB       4 lignes
+. . export : "MOHAMED"."CAISSE_CENTR"                    5.554 KB      10 lignes
+. . export : "MOHAMED"."CDE_MONNAIES"                    8.085 KB       2 lignes
+. . export : "MOHAMED"."CDE_VERS_DELTA"                  6.828 KB       6 lignes
+. . export : "MOHAMED"."CENTRE_FORT"                     5.515 KB      15 lignes
+. . export : "MOHAMED"."DEVISE"                          5.460 KB      11 lignes
+. . export : "MOHAMED"."GROUPE"                          7.109 KB      28 lignes
+. . export : "MOHAMED"."PROFIL"                          5.289 KB       4 lignes
+. . export : "MOHAMED"."USERS"                           6.265 KB       4 lignes
+. . export : "MOHAMED"."ADRESSE_MAIL"                        0 KB       0 lignes
+. . export : "MOHAMED"."AFFECT_AGENCE_PRESTATAIRE"           0 KB       0 lignes
+. . export : "MOHAMED"."APP_MENU"                            0 KB       0 lignes
+. . export : "MOHAMED"."APP_PROFILE_PERMISSION"              0 KB       0 lignes
+. . export : "MOHAMED"."CDE_BILLETS"                         0 KB       0 lignes
+. . export : "MOHAMED"."CONVOYEURS"                          0 KB       0 lignes
+. . export : "MOHAMED"."ENC_BOR"                             0 KB       0 lignes
+. . export : "MOHAMED"."ENC_BOR_SIM"                         0 KB       0 lignes
+. . export : "MOHAMED"."ENC_MIN"                             0 KB       0 lignes
+. . export : "MOHAMED"."GRPLIMITE"                           0 KB       0 lignes
+. . export : "MOHAMED"."IMAGE_CP_CONVOYEURS"                 0 KB       0 lignes
+. . export : "MOHAMED"."LIASSES"                             0 KB       0 lignes
+. . export : "MOHAMED"."LIMITE_ENCDEC"                       0 KB       0 lignes
+. . export : "MOHAMED"."LOGS"                                0 KB       0 lignes
+. . export : "MOHAMED"."LOGS_MAIL"                           0 KB       0 lignes
+. . export : "MOHAMED"."MAIL"                                0 KB       0 lignes
+. . export : "MOHAMED"."OPERATION_CAISSE"                    0 KB       0 lignes
+. . export : "MOHAMED"."PARAM_GEN"                           0 KB       0 lignes
+. . export : "MOHAMED"."PRESTATAIRE"                         0 KB       0 lignes
+. . export : "MOHAMED"."RESERV_LIQ"                          0 KB       0 lignes
+. . export : "MOHAMED"."SOLDE_CAISSE"                        0 KB       0 lignes
+. . export : "MOHAMED"."TRACE"                               0 KB       0 lignes
+. . export : "MOHAMED"."TRF_FND_IBS"                         0 KB       0 lignes
+Table maître "SYSTEM"."SYS_EXPORT_SCHEMA_01" chargée/déchargée avec succès
+******************************************************************************
+Le fichier de vidage défini pour SYSTEM.SYS_EXPORT_SCHEMA_01 est :
+  D:\STAGE\GESTION_ENCAISSE_PFE\GESTION_ENCAISSE\DB\DB22.DMP
+Tâche "SYSTEM"."SYS_EXPORT_SCHEMA_01" exécutée avec succès à 22:31:03

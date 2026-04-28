@@ -1,0 +1,55 @@
+<div class="login-wrapper">
+  <div class="login-container">
+    <div class="login-header">
+      <div class="logo">
+        <img src="logo.jpg" alt="Attijari Bank" width="1600" height="100">
+
+      </div>
+      <h2>Gestion des encaisses</h2>
+      <p>Bienvenue sur votre espace</p>
+    </div>
+
+    <form class="login-form" (ngSubmit)="login()" #loginForm="ngForm">
+      <div class="input-group">
+        <label for="identifiant">Email</label>
+        <div class="input-wrapper">
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <input type="email" id="identifiant" name="username" [(ngModel)]="credentials.username" placeholder="Saisissez votre email" required #emailInput="ngModel">
+        </div>
+        @if (emailInput.invalid && emailInput.touched) {
+          <div class="error-message">Email requis</div>
+        }
+      </div>
+
+      <div class="input-group">
+        <label for="password">Mot de passe</label>
+        <div class="input-wrapper">
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <input type="password" id="password" name="password" [(ngModel)]="credentials.password" placeholder="••••••••" required #passwordInput="ngModel">
+        </div>
+        @if (passwordInput.invalid && passwordInput.touched) {
+          <div class="error-message">Mot de passe requis</div>
+        }
+      </div>
+
+      @if (errorMessage) {
+        <div class="error-message">{{ errorMessage }}</div>
+      }
+
+      <button type="submit" class="submit-btn" [disabled]="loginForm.invalid || isLoading">
+        @if (!isLoading) {
+          <span>Se connecter</span>
+        } @else {
+          <span>Connexion en cours...</span>
+        }
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </button>
+    </form>
+  </div>
+  
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+</div>

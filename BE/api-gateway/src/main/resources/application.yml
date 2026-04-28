@@ -1,0 +1,60 @@
+server:
+  port: 8081
+
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: api-gateway
+  cloud:
+    compatibility-verifier:
+      enabled: false
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:3000"
+              - "http://localhost:4200"
+            allowedMethods: "GET,POST,PUT,DELETE,OPTIONS,HEAD"
+            allowedHeaders: "*"
+            allowCredentials: true
+      routes:
+        # Route 1: Auth Service
+        - id: auth-service-route
+          uri: lb://auth-service # "lb://" means LoadBalancer, looks up "auth-service" in Eureka
+          predicates:
+            - Path=/auth/**, /api/auth/**, /devises/**, /api/devises/**, /cde-monnaies/**, /api/cde-monnaies/**, /cde-vers-delta/**, /api/cde-vers-delta/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /${segment}
+
+        # Route 2: User Service
+        - id: user-service-route
+          uri: lb://user-service
+          predicates:
+            - Path=/users/**, /agences/**, /groupes/**, /api/users/**, /api/agences/**, /api/groupes/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /${segment}
+
+        # Route 3: Notification Service
+        - id: notification-service-route
+          uri: lb://notification-service
+          predicates:
+            - Path=/notifications/**, /api/notifications/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /${segment}
+
+        - id: ml-service-route
+          uri: http://ml-service:8000
+          predicates:
+            - Path=/ml/**, /api/ml/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /${segment}
+
+  config:
+    import: optional:configserver:http://config-server:8888
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka

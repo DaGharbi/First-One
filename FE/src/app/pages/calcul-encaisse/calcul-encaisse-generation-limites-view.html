@@ -1,0 +1,99 @@
+<div class="page-wrap">
+  <app-attijari-session-panel />
+  <div class="page-card">
+    <h1>Calcul encaisse - Generation limites encaisses</h1>
+    <p class="lead">Choisissez une date de debut et une date de fin. Le modele calcule une estimation pour chaque jour compris dans cette plage, y compris si vous choisissez un seul jour.</p>
+
+    <div class="ml-shell">
+      <div class="ml-form">
+        @if (!isAgent) {
+          <label class="field">
+            <span>Selection agences</span>
+            <select
+              [(ngModel)]="agenceSelectionMode"
+              name="agenceSelectionMode"
+              (ngModelChange)="onAgenceSelectionModeChange()">
+              <option value="ALL">Toutes les agences</option>
+              <option value="CUSTOM">Choisir des agences</option>
+            </select>
+          </label>
+
+          @if (agenceSelectionMode === 'CUSTOM') {
+            <label class="field field-wide">
+              <span>Agences</span>
+              <select
+                [(ngModel)]="selectedAgences"
+                name="selectedAgences"
+                multiple
+                size="5">
+                @for (agence of caisseAgences; track agence.codeAgence) {
+                  <option [value]="agence.codeAgence">{{ agence.codeAgence }} - {{ agence.libAgence }}</option>
+                }
+              </select>
+            </label>
+          }
+        }
+
+        <label class="field date-field">
+          <span>Date de debut</span>
+          <app-european-date-input [(value)]="startDate" name="startDate" />
+        </label>
+
+        <label class="field date-field">
+          <span>Date de fin</span>
+          <app-european-date-input [(value)]="endDate" name="endDate" />
+        </label>
+
+        <button
+          class="cta-button"
+          type="button"
+          (click)="requestEstimation()"
+          [disabled]="isLoading() || !getSelectedAgenceCodes().length || !startDate || !endDate">
+          {{ isLoading() ? 'Calcul en cours...' : 'Calculer avec le modele ML' }}
+        </button>
+      </div>
+    </div>
+
+    @if (errorMessage()) {
+      <div class="feedback error">{{ errorMessage() }}</div>
+    }
+
+    @for (result of predictions(); track result.codeAgence) {
+      <section class="prediction-section">
+        <div class="result-grid">
+          <div class="result-card">
+            <span class="result-label">Agence</span>
+            <strong>{{ getAgenceLabel(result.codeAgence) }}</strong>
+          </div>
+          <div class="result-card">
+            <span class="result-label">Debut selectionne</span>
+            <strong>{{ result.startDate | displayDate }}</strong>
+          </div>
+          <div class="result-card">
+            <span class="result-label">Fin selectionnee</span>
+            <strong>{{ result.endDate | displayDate }}</strong>
+          </div>
+        </div>
+
+        <div class="forecast-table-wrap">
+          <table class="forecast-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Montant estime</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (day of predictionCards(result); track day.targetDate) {
+                <tr>
+                  <td>{{ day.targetDate | displayDate }}</td>
+                  <td class="amount-cell">{{ day.estimatedAmount | number:'1.0-2' }} TND</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    }
+  </div>
+</div>

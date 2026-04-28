@@ -1,0 +1,17 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-server
+  cloud:
+    compatibility-verifier:
+      enabled: false
+    config:
+      server:
+        native:
+          search-locations: classpath:/config
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka

@@ -1,0 +1,63 @@
+;;; 
+Import: Release 10.2.0.1.0 - Production on Mercredi, 22 Avril, 2026 22:32:54
+
+Copyright (c) 2003, 2005, Oracle.  All rights reserved.
+;;; 
+Connecté à : Oracle Database 10g Express Edition Release 10.2.0.1.0 - Production
+Table maître "MOHAMED"."SYS_IMPORT_FULL_01" chargée/déchargée avec succès
+ORA-39146: le schéma "APPUSER" n'existe pas
+Démarrage de "MOHAMED"."SYS_IMPORT_FULL_01" : MOHAMED/********@XE DIRECTORY=MON_DIR DUMPFILE=DB2.DMP LOGFILE=encaisse.log REMAP_SCHEMA=APPUSER:MOHAMED TABLE_EXISTS_ACTION=REPLACE 
+Traitement du type d'objet SCHEMA_EXPORT/USER
+ORA-31684: Le type d'objet USER:"MOHAMED" existe déjà
+Traitement du type d'objet SCHEMA_EXPORT/SYSTEM_GRANT
+Traitement du type d'objet SCHEMA_EXPORT/ROLE_GRANT
+Traitement du type d'objet SCHEMA_EXPORT/DEFAULT_ROLE
+Traitement du type d'objet SCHEMA_EXPORT/TABLESPACE_QUOTA
+Traitement du type d'objet SCHEMA_EXPORT/PRE_SCHEMA/PROCACT_SCHEMA
+Traitement du type d'objet SCHEMA_EXPORT/SEQUENCE/SEQUENCE
+ORA-31684: Le type d'objet SEQUENCE:"MOHAMED"."APP_AUTH_SEQ" existe déjà
+ORA-31684: Le type d'objet SEQUENCE:"MOHAMED"."SEQ_AFFECT" existe déjà
+ORA-31684: Le type d'objet SEQUENCE:"MOHAMED"."SEQ_AFFECT_AGENCE_PRESTATAIRE" existe déjà
+ORA-31684: Le type d'objet SEQUENCE:"MOHAMED"."SEQ_TRACE" existe déjà
+Traitement du type d'objet SCHEMA_EXPORT/TABLE/TABLE
+Traitement du type d'objet SCHEMA_EXPORT/TABLE/TABLE_DATA
+. . import : "MOHAMED"."AGENCE"                          20.55 KB     294 lignes
+. . import : "MOHAMED"."APP_AUTH"                            6 KB       4 lignes
+. . import : "MOHAMED"."CAISSE_CENTR"                    5.554 KB      10 lignes
+. . import : "MOHAMED"."CDE_MONNAIES"                    8.085 KB       2 lignes
+. . import : "MOHAMED"."CDE_VERS_DELTA"                  6.828 KB       6 lignes
+. . import : "MOHAMED"."CENTRE_FORT"                     5.515 KB      15 lignes
+. . import : "MOHAMED"."DEVISE"                          5.460 KB      11 lignes
+. . import : "MOHAMED"."GROUPE"                          7.109 KB      28 lignes
+. . import : "MOHAMED"."PROFIL"                          5.289 KB       4 lignes
+. . import : "MOHAMED"."USERS"                           6.265 KB       4 lignes
+. . import : "MOHAMED"."ADRESSE_MAIL"                        0 KB       0 lignes
+. . import : "MOHAMED"."AFFECT_AGENCE_PRESTATAIRE"           0 KB       0 lignes
+. . import : "MOHAMED"."APP_MENU"                            0 KB       0 lignes
+. . import : "MOHAMED"."APP_PROFILE_PERMISSION"              0 KB       0 lignes
+. . import : "MOHAMED"."CDE_BILLETS"                         0 KB       0 lignes
+. . import : "MOHAMED"."CONVOYEURS"                          0 KB       0 lignes
+. . import : "MOHAMED"."ENC_BOR"                             0 KB       0 lignes
+. . import : "MOHAMED"."ENC_BOR_SIM"                         0 KB       0 lignes
+. . import : "MOHAMED"."ENC_MIN"                             0 KB       0 lignes
+. . import : "MOHAMED"."GRPLIMITE"                           0 KB       0 lignes
+. . import : "MOHAMED"."IMAGE_CP_CONVOYEURS"                 0 KB       0 lignes
+. . import : "MOHAMED"."LIASSES"                             0 KB       0 lignes
+. . import : "MOHAMED"."LIMITE_ENCDEC"                       0 KB       0 lignes
+. . import : "MOHAMED"."LOGS"                                0 KB       0 lignes
+. . import : "MOHAMED"."LOGS_MAIL"                           0 KB       0 lignes
+. . import : "MOHAMED"."MAIL"                                0 KB       0 lignes
+. . import : "MOHAMED"."OPERATION_CAISSE"                    0 KB       0 lignes
+. . import : "MOHAMED"."PARAM_GEN"                           0 KB       0 lignes
+. . import : "MOHAMED"."PRESTATAIRE"                         0 KB       0 lignes
+. . import : "MOHAMED"."RESERV_LIQ"                          0 KB       0 lignes
+. . import : "MOHAMED"."SOLDE_CAISSE"                        0 KB       0 lignes
+. . import : "MOHAMED"."TRACE"                               0 KB       0 lignes
+. . import : "MOHAMED"."TRF_FND_IBS"                         0 KB       0 lignes
+Traitement du type d'objet SCHEMA_EXPORT/TABLE/INDEX/INDEX
+Traitement du type d'objet SCHEMA_EXPORT/TABLE/CONSTRAINT/CONSTRAINT
+Traitement du type d'objet SCHEMA_EXPORT/TABLE/INDEX/STATISTICS/INDEX_STATISTICS
+Traitement du type d'objet SCHEMA_EXPORT/TABLE/CONSTRAINT/REF_CONSTRAINT
+Traitement du type d'objet SCHEMA_EXPORT/TABLE/TRIGGER
+Traitement du type d'objet SCHEMA_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+Tâche "MOHAMED"."SYS_IMPORT_FULL_01" exécutée avec 5 erreur(s) à 22:32:58

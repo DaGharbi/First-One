@@ -1,0 +1,229 @@
+services:
+  # Core Infrastructure
+  oracle-db:
+    image: wnameless/oracle-xe-11g-r2
+    container_name: oracle-db
+    ports:
+      - "1521:1521"
+      - "8080:8080"
+    environment:
+      - ORACLE_ALLOW_REMOTE=true
+      - ORACLE_PASSWORD=oracle
+    volumes:
+      - ./DB/DB2.DMP:/u01/app/oracle/admin/XE/dpdump/DB2.DMP:ro
+      - ./DB/init-db2-import.sh:/docker-entrypoint-initdb.d/40-import-db2.sh:ro
+    networks:
+      - microservices-network
+
+
+  eureka-server:
+    build:
+      context: .
+      dockerfile: ./BE/eureka-server/Dockerfile
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - microservices-network
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O- http://localhost:8761/actuator/health | grep -q UP"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  config-server:
+    build:
+      context: .
+      dockerfile: ./BE/config-server/Dockerfile
+    container_name: config-server
+    ports:
+      - "8888:8888"
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE=http://eureka-server:8761/eureka
+    networks:
+      - microservices-network
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 8888"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  # Microservices
+  auth-service:
+    build:
+      context: .
+      dockerfile: ./BE/auth-service/Dockerfile
+    container_name: auth-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      oracle-db:
+        condition: service_started
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE=http://eureka-server:8761/eureka
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@//oracle-db:1521/XE
+      - SPRING_DATASOURCE_USERNAME=MOHAMED
+      - SPRING_DATASOURCE_PASSWORD=chouikh
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=oracle.jdbc.OracleDriver
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.OracleDialect
+      - AUTH_USER_USERNAME=user
+      - AUTH_USER_PASSWORD=1234
+    networks:
+      - microservices-network
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 8082"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  user-service:
+    build:
+      context: .
+      dockerfile: ./BE/user-service/Dockerfile
+    container_name: user-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      oracle-db:
+        condition: service_started
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE=http://eureka-server:8761/eureka
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@//oracle-db:1521/XE
+      - SPRING_DATASOURCE_USERNAME=MOHAMED
+      - SPRING_DATASOURCE_PASSWORD=chouikh
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=oracle.jdbc.OracleDriver
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.OracleDialect
+    networks:
+      - microservices-network
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 8083"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  notification-service:
+    build:
+      context: .
+      dockerfile: ./BE/notification-service/Dockerfile
+    container_name: notification-service
+    ports:
+      - "8084:8084"
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    environment:
+      - SPRING_APPLICATION_NAME=NOTIFICATION-SERVICE
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    networks:
+      - microservices-network
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 8084"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  ml-service:
+    build:
+      context: .
+      dockerfile: ./ML/service/Dockerfile
+    container_name: ml-service
+    ports:
+      - "8000:8000"
+    environment:
+      - ML_ROOT=/app/ML
+    volumes:
+      - ./ML:/app/ML:ro
+    networks:
+      - microservices-network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=3).read()"
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
+
+  # Frontend & Gateway
+  api-gateway:
+    build:
+      context: .
+      dockerfile: ./BE/api-gateway/Dockerfile
+    container_name: api-gateway
+    ports:
+      - "8081:8081"
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      auth-service:
+        condition: service_healthy
+      user-service:
+        condition: service_healthy
+      ml-service:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE=http://eureka-server:8761/eureka
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+    networks:
+      - microservices-network
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 8081"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  frontend:
+    build:
+      context: ./FE
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      api-gateway:
+        condition: service_healthy
+    networks:
+      - microservices-network
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O- http://localhost/ >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 15s
+
+networks:
+  microservices-network:
+    driver: bridge
+
+

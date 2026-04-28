@@ -1,0 +1,92 @@
+<div class="page-wrap">
+  <app-attijari-session-panel />
+  <div class="page-card">
+    <h1>Operations</h1>
+    <p class="lead">Vue unifiee des operations des agences rattachees a la meme caisse centrale.</p>
+
+    <div class="filter-panel" aria-label="Filtres des operations">
+      <div class="filter-header">
+        <div>
+          <span class="filter-title">Filtres</span>
+          <p>Affinez la liste par type de devise et par operation.</p>
+        </div>
+        <button
+          type="button"
+          class="filter-reset"
+          (click)="resetFilters()"
+          [disabled]="activeFiltersCount === 0">
+          Reinitialiser
+        </button>
+      </div>
+
+      <div class="filter-grid">
+        <label class="filter-field">
+          <span>Type de devise</span>
+          <select [(ngModel)]="deviseFilter" name="deviseFilter">
+            <option value="ALL">Toutes les devises</option>
+            <option value="TND">TND uniquement</option>
+            <option value="DEVISE">Devises hors TND</option>
+          </select>
+        </label>
+
+        <label class="filter-field">
+          <span>Operation</span>
+          <select [(ngModel)]="operationFilter" name="operationFilter">
+            <option value="ALL">Toutes les operations</option>
+            <option value="COMMANDE">Commandes</option>
+            <option value="VERSEMENT">Versements</option>
+            <option value="RESERVATION">Reservations</option>
+          </select>
+        </label>
+
+        <div class="filter-count" aria-live="polite">
+          <span>Resultats</span>
+          <strong>{{ filteredOperations.length }}</strong>
+        </div>
+      </div>
+    </div>
+
+    @if (isLoading) {
+      <div class="feedback">Chargement des operations...</div>
+    }
+
+    @if (errorMessage) {
+      <div class="feedback error">{{ errorMessage }}</div>
+    }
+
+    <div class="table-card">
+      <div class="table-responsive">
+      <table class="users-table">
+        <thead>
+          <tr>
+            <th>Agence</th>
+            <th>Code agence</th>
+            <th>Date</th>
+            <th>Montant</th>
+            <th>Devise</th>
+            <th>Nature</th>
+            <th>Operation</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of filteredOperations; track item.codeAgence + item.datePass + item.naturePass + item.codeDevise) {
+            <tr>
+              <td>{{ item.libAgence || '-' }}</td>
+              <td>{{ item.codeAgence }}</td>
+              <td>{{ item.datePass | displayDate }}</td>
+              <td>{{ item.montant | number:'1.0-0' }}</td>
+              <td>{{ item.codeDevise }}</td>
+              <td>{{ item.naturePass }}</td>
+              <td>{{ operationLabel(item.cdeVers) }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="7">Aucune operation trouvee pour ces filtres.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+</div>
